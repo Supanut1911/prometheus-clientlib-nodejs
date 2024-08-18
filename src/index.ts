@@ -8,6 +8,10 @@ app.get('/', (req, res) => {
   res.send('Hello, TypeScript + Node.js + Express!');
 });
 
+app.get('/metrics', (req, res) => {
+  res.send('Metrics');
+})
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

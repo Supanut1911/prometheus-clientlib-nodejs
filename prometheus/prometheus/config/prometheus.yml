@@ -1,0 +1,42 @@
+# my global config
+global:
+  scrape_interval: 15s # How frequently to scrape targets by default.
+  scrape_timeout: 10s # How long until a scrape request times out.
+  evaluation_interval: 15s # How frequently to evaluate rules.
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+        #  - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "rules/alerts_rules.yaml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: prometheus # The job name assigned to scraped metrics by default.
+    metrics_path: /metrics # The HTTP resource path on which to fetch metrics from targets.
+    scheme: http
+    static_configs: # List of labeled statically configured targets for this job.
+    - targets:
+      - localhost:9090 # Scrape yourself Prometheus metrics
+  
+  - job_name: node_exporter # The job name assigned to scraped metrics by default.
+    metrics_path: /metrics # The HTTP resource path on which to fetch metrics from targets.
+    scheme: http
+    static_configs: # List of labeled statically configured targets for this job.
+    - targets: 
+      - node-exporter:9100 # Scrape node-exporter metrics
+
+  - job_name: node-app
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+    - targets:
+      - localhost:3000 # Scrape node-app metrics

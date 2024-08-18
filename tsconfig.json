@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es6" /* กำหนดว่าให้แปลงเป็น js version อะไร */,
+    "module": "commonjs" /* กำหนดว่าจะใช้ module แบบไหน */,
+    "moduleResolution": "node" /* บอกใช้กับ Node.js */,
+    "esModuleInterop": true /* อนุญาติให้ complie ES6 module เป็น commonjs*/,
+    "strict": true /* เปิดใช้ strict type-checking options*/,
+    "outDir": "./dist" /* ระบุโฟลเดอร์ output (JavaScript) */,
+    "rootDir": "./src" /* ระบุโฟลเดอร์ sourcecode (TypeScript) */
+  }
+}

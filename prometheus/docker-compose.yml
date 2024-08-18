@@ -36,6 +36,13 @@ services:
     networks:
       - monitoring
 
+  nodets-app:
+    build: ../.
+    ports:
+      - 3000:3000
+    networks:
+      - monitoring
+
 networks:
   monitoring:
     driver: bridge

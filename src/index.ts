@@ -45,7 +45,16 @@ app.get('/metrics', async(req, res) => {
   res.end(await register.metrics());
 })
 
-
+app.get('/flip', async(req, res) => {
+  const coin = Math.random() > 0.5 ? 'head' : 'tail';
+  if (coin === 'head') {
+    headCounter.inc();
+  } else {
+    tailCounter.inc();
+  }
+  flipCounter.inc();
+  res.json({ coin });
+})
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

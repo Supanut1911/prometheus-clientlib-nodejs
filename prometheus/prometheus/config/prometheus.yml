@@ -34,9 +34,9 @@ scrape_configs:
     - targets: 
       - node-exporter:9100 # Scrape node-exporter metrics
 
-  - job_name: node-app
+  - job_name: prom_nodets_app
     metrics_path: /metrics
-    scheme: http
+    scheme: http   
     static_configs:
     - targets:
-      - localhost:3000 # Scrape node-app metrics
+      - nodets-app:3000 # Scrape node-app metrics

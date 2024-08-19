@@ -5,6 +5,11 @@ const port = 3000;
 const app = express();
 const register = new client.Registry();
 
+const appRequestCounter = new client.Counter({
+  name: 'app_requests_count',
+  help: 'total all http requests count',
+});
+
 const headCounter = new client.Counter({
   name: 'head_count',
   help: 'number of head',
@@ -30,6 +35,7 @@ const defaultLabels = { serviceName: 'coin-flip-v1' };
 register.registerMetric(headCounter)
 register.registerMetric(tailCounter)
 register.registerMetric(flipCounter)
+register.registerMetric(appRequestCounter)
 
 register.setDefaultLabels(defaultLabels);
 client.collectDefaultMetrics({ register });
@@ -37,6 +43,7 @@ client.collectDefaultMetrics({ register });
 
 
 app.get('/', (req, res) => {
+  appRequestCounter.inc();
   res.send('Hello, TypeScript + Node.js + Express!aaa');
 });
 

@@ -100,6 +100,28 @@ app.get('/gauge', async(req, res) => {
   res.send('progress done')
 })
 
+//-----------------------------------//
+
+//-------------- Summary --------------//
+const appResponseTime = new client.Summary({
+  name: 'app_response_latency_seconds',
+  help: 'response latency seconds time of the app',
+})
+
+register.registerMetric(appResponseTime)
+
+app.get('/sunmmary', async(req, res) => {
+  const startTime = Date.now() - 7 * 24 * 60 * 60 * 1000
+  await sleep(5000)
+  const endTime = Date.now() - 7 * 24 * 60 * 60 * 1000
+  const timetaked =  endTime - startTime
+
+  res.send('summary done')
+  
+  appResponseTime.observe(timetaked / 1000)
+})
+//-----------------------------------//
+
 
 
 function sleep(ms: number) {

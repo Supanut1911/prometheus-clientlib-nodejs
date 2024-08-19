@@ -1,3 +1,5 @@
 node_modules
 prometheus/prometheus/data
 dist
+.env
+grafana/data

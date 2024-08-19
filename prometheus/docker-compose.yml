@@ -54,14 +54,27 @@ services:
   nodets-app:
     build: ../.
     ports:
-      - 4477:4477
+      - "4444:${PORT:-4444}"
+    environment:
+      - PORT=4444
     networks:
       - monitoring
 
   nodets-app2:
     build: ../.
     ports:
-      - 4488:4488
+      - "4455:${PORT:-4455}"
+    environment:
+      - PORT=4455
+    networks:
+      - monitoring
+
+  nodets-app3:
+    build: ../.
+    ports:
+      - "4466:${PORT:-4466}"
+    environment:
+      - PORT=4466
     networks:
       - monitoring
 

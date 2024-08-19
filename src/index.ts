@@ -1,7 +1,10 @@
 import { time } from 'console';
 import express from 'express';
 import * as client from 'prom-client';
-const port = 4477;
+import dotenv from 'dotenv';
+
+dotenv.config();
+const port = process.env.PORT || 3322
 
 const app = express();
 const register = new client.Registry();
@@ -110,19 +113,30 @@ const appResponseTime = new client.Summary({
 
 register.registerMetric(appResponseTime)
 
-app.get('/sunmmary', async(req, res) => {
+app.get('/summary', async(req, res) => {
   const startTime = Date.now() - 7 * 24 * 60 * 60 * 1000
-  await sleep(5000)
+  const randTime = getRandomSleepTime()
+
+  await sleep(randTime)
   const endTime = Date.now() - 7 * 24 * 60 * 60 * 1000
   const timetaked =  endTime - startTime
 
-  res.send('summary done')
+
+  res.json({
+    name: 'summary done',
+    randTime
+  })
   
   appResponseTime.observe(timetaked / 1000)
 })
 //-----------------------------------//
 
 
+function getRandomSleepTime() {
+  // Generate a random number between 1 and 5000 ms
+  const randomNumber = Math.floor(Math.random() * 5000) + 1;
+  return randomNumber;
+}
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

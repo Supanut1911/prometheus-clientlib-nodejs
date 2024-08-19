@@ -33,17 +33,26 @@ scrape_configs:
     static_configs: # List of labeled statically configured targets for this job.
     - targets: 
       - node-exporter:9100 # Scrape node-exporter metrics
-
-  - job_name: grafana
-    metrics_path: /metrics
-    scheme: http   
-    static_configs:
-    - targets:
-      - grafana:3000 # Scrape node-app metrics
-
+      
   - job_name: prom_nodets_app
     metrics_path: /metrics
     scheme: http   
     static_configs:
     - targets:
-      - nodets-app:4477 # Scrape node-app metrics
+      - nodets-app:4444 # Scrape node-app metrics
+
+  - job_name: prom_nodets_app2
+    metrics_path: /metrics
+    scheme: http   
+    static_configs:
+    - targets:
+      - nodets-app2:4455 # Scrape node-app metrics
+  
+  - job_name: prom_nodets_app3
+    metrics_path: /metrics
+    scheme: http   
+    static_configs:
+    - targets:
+      - nodets-app3:4466 # Scrape node-app metrics
+  
+  

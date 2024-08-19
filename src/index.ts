@@ -8,11 +8,14 @@ const register = new client.Registry();
 const appRequestCounter = new client.Counter({
   name: 'app_requests_count',
   help: 'total all http requests count',
+  labelNames: ['app_name', "endpoint"],
 });
 
 const headCounter = new client.Counter({
   name: 'head_count',
   help: 'number of head',
+  labelNames: ['app_name', "endpoint"],
+
   // add `as const` here to enforce label names
   // labelNames: ['method'] as const,
 });
@@ -20,6 +23,8 @@ const headCounter = new client.Counter({
 const tailCounter = new client.Counter({
   name: 'tail_count',
   help: 'number of tail',
+  labelNames: ['app_name', "endpoint"],
+
   // add `as const` here to enforce label names
   // labelNames: ['method'] as const,
 });
@@ -27,6 +32,8 @@ const tailCounter = new client.Counter({
 const flipCounter = new client.Counter({
   name: 'flip_count',
   help: 'number of flip',
+  labelNames: ['app_name', "endpoint"],
+
   // add `as const` here to enforce label names
   // labelNames: ['method'] as const,
 });
@@ -43,8 +50,8 @@ client.collectDefaultMetrics({ register });
 
 
 app.get('/', (req, res) => {
-  appRequestCounter.inc();
-  res.send('Hello, TypeScript + Node.js + Express!aaa');
+  appRequestCounter.labels('prom_nodets_app', req.path).inc();
+  res.send('Hello World');
 });
 
 app.get('/metrics', async(req, res) => {
@@ -55,11 +62,11 @@ app.get('/metrics', async(req, res) => {
 app.get('/flip', async(req, res) => {
   const coin = Math.random() > 0.5 ? 'head' : 'tail';
   if (coin === 'head') {
-    headCounter.inc();
+    headCounter.labels('prom_nodets_app', req.path).inc();
   } else {
-    tailCounter.inc();
+    tailCounter.labels('prom_nodets_app', req.path).inc();
   }
-  flipCounter.inc();
+  flipCounter.labels('prom_nodets_app', req.path).inc();
   res.json({ coin });
 })
 

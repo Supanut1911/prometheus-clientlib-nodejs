@@ -1,3 +1,4 @@
+import { time } from 'console';
 import express from 'express';
 import * as client from 'prom-client';
 const port = 3000;
@@ -48,7 +49,7 @@ register.setDefaultLabels(defaultLabels);
 client.collectDefaultMetrics({ register });
 
 
-
+//-------------- Counter --------------//
 app.get('/', (req, res) => {
   appRequestCounter.labels('prom_nodets_app', req.path).inc();
   res.send('Hello World');
@@ -69,6 +70,41 @@ app.get('/flip', async(req, res) => {
   flipCounter.labels('prom_nodets_app', req.path).inc();
   res.json({ coin });
 })
+
+//-----------------------------------//
+
+//-------------- Gauge --------------//
+
+const requestInprogress = new client.Gauge({
+  name: 'app_requests_inprogress',
+  help: 'number of request in progress',
+  labelNames: ['app_name', "endpoint"],
+
+})
+
+const requestLastServed = new client.Gauge({
+  name: 'app_last_served',
+  help: 'time the app was last served',
+  // labelNames: ['app_name', "endpoint"],
+
+})
+
+register.registerMetric(requestInprogress)
+register.registerMetric(requestLastServed)
+
+app.get('/gauge', async(req, res) => {
+  requestInprogress.labels('prom_nodets_app', req.path).inc()
+  await sleep(2500)
+  requestLastServed.set(Date.now())
+  requestInprogress.labels('prom_nodets_app', req.path).dec()
+  res.send('progress done')
+})
+
+
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -34,9 +34,16 @@ scrape_configs:
     - targets: 
       - node-exporter:9100 # Scrape node-exporter metrics
 
+  - job_name: grafana
+    metrics_path: /metrics
+    scheme: http   
+    static_configs:
+    - targets:
+      - grafana:3000 # Scrape node-app metrics
+
   - job_name: prom_nodets_app
     metrics_path: /metrics
     scheme: http   
     static_configs:
     - targets:
-      - nodets-app:3000 # Scrape node-app metrics
+      - nodets-app:4477 # Scrape node-app metrics

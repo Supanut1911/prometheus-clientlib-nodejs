@@ -1,7 +1,7 @@
 import { time } from 'console';
 import express from 'express';
 import * as client from 'prom-client';
-const port = 3000;
+const port = 4477;
 
 const app = express();
 const register = new client.Registry();

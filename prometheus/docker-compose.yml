@@ -18,6 +18,21 @@ services:
     - --web.external-url=https://9090-${WEB_HOST}
     networks:
       - monitoring
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:10.1.2
+    user: "1000:1000"
+    environment:
+      GF_SERVER_DOMAIN: 9000-${WEB_HOST}
+    volumes:
+      - ../grafana/data/:/var/lib/grafana
+      - ../grafana/config/:/etc/grafana/
+    ports:
+      - 3000:3000
+    networks:
+      - monitoring
+
   
   node-exporter:
     container_name: node-exporter
@@ -39,7 +54,14 @@ services:
   nodets-app:
     build: ../.
     ports:
-      - 3000:3000
+      - 4477:4477
+    networks:
+      - monitoring
+
+  nodets-app2:
+    build: ../.
+    ports:
+      - 4488:4488
     networks:
       - monitoring
 
